@@ -2,7 +2,7 @@ import xlrd
 import sys
 
 
-##########################################
+########################################
 #variables
 global eheaders, downspouts, overflows, roof_panels, top_angle, roof_closure, roofclip, gutterclip
 global cjc, rdoors, Gboard_625_12, Gboard_625_10
