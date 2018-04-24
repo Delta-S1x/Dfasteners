@@ -152,8 +152,24 @@ def excell_pull_routine():
             parts["gboard-625-12"] += sheet.cell(r, b_loc).value
 
 
+# sign
+    parts["sign"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "M61308" in value:
+            parts["sign"] += sheet.cell(r, b_loc).value
 
 
+# Trap-roof
+    parts["TrapRoof"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "" in value:
+            parts["TrapRoof"] += sheet.cell(r, b_loc).value
 
 
 main_questionair()
