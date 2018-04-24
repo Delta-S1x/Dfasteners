@@ -168,7 +168,7 @@ def excell_pull_routine():
         cell = sheet.cell(r, 0)
         value = cell.value
         #print (value)
-        if "trap roof part number" in value:
+        if "RT4" in value:
             parts["TrapRoof"] += sheet.cell(r, b_loc).value
 
 # 5' base angles
@@ -195,8 +195,104 @@ def excell_pull_routine():
                     parts["15'nominal_base"] += sheet.cell(r, b_loc).value
 
 
-    print(parts["5'nominal_base"])
-    print(parts["10'nominal_base"])
-    print(parts["15'nominal_base"])
+# 16" Wall Columns
+    parts["16WallColumn"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "CEBA" in value:
+            parts["16WallColumn"] += sheet.cell(r, b_loc).value
+
+
+
+
+# 18" Wall Columns
+    parts["18WallColumn"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "CEBB" in value:
+            parts["18WallColumn"] += sheet.cell(r, b_loc).value
+
+# Corner Column
+    parts["CornerColumn"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "CEAA" in value:
+            parts["CornerColumn"] += sheet.cell(r, b_loc).value
+
+
+# 24" Wall Column
+    parts["24WallColumn"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "CEBC" in value:
+            parts["24WallColumn"] += sheet.cell(r, b_loc).value
+
+
+# Inside Corner Column Assembly
+    parts["InsideCorner"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "CEAF" in value:
+            parts["InsideCorner"] += sheet.cell(r, b_loc).value
+
+# 22 ga interior column
+    parts["22gaColumn"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "CIAD" in value:
+            parts["22gaColumn"] += sheet.cell(r, b_loc).value
+
+# Screw guards, use this to determine the wall pabel widths
+    parts["7'ScrewGuard"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "S50180" in value:
+            parts["7'ScrewGuard"] += sheet.cell(r, b_loc).value
+
+    parts["7'10ScrewGuard"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "S50049GL" in value:
+            parts["7'10ScrewGuard"] += sheet.cell(r, b_loc).value
+
+# Jam channel, use this for pdf calculation "Jam channel x 2"
+    parts["JambChannel"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "S46185" in value:
+            parts["JambChannel"] += sheet.cell(r, b_loc).value
+
+
+# Screw guards, use this to determine the wall pabel widths
+    parts["7'ScrewGuard"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "S50180" in value:
+            parts["7'ScrewGuard"] += sheet.cell(r, b_loc).value
+
+
+
+
+
 
 main_questionair()
