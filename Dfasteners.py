@@ -14,7 +14,7 @@ def main_questionair():
     print('Note: All firewalls will be treated as 3 hour firewalls. So adjust gypboard fasteners and compound accordingly ')
    # try:
     global b_loc
-    path = "/root/1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
+    path = "C:\Downloads\\1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
     bldg = "bldg 1"#input('WHAT IS THE NAME OF THE BUILDING ON THE SPREADSHEET?\n').lower()
 
     workbook = open_workbook(path)
@@ -168,8 +168,35 @@ def excell_pull_routine():
         cell = sheet.cell(r, 0)
         value = cell.value
         #print (value)
-        if "" in value:
+        if "trap roof part number" in value:
             parts["TrapRoof"] += sheet.cell(r, b_loc).value
 
+# 5' base angles
+    parts["5'nominal_base"] = 0
+    parts["10'nominal_base"] = 0
+    parts["15'nominal_base"] = 0
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r, 0)
+        value = cell.value
+        #print (value)
+        if "SBA" in value:
+            print("here")
+            if "0" in value:
+                for x in range(10,80):
+                    if str(x) in value:
+                        parts["5'nominal_base"] += sheet.cell(r, b_loc).value
+
+            for x in range(90,120):
+                if str(x) in value:
+                    parts["10'nominal_base"] += sheet.cell(r, b_loc).value
+
+            for x in range(150,200):
+                if str(x) in value:
+                    parts["15'nominal_base"] += sheet.cell(r, b_loc).value
+
+
+    print(parts["5'nominal_base"])
+    print(parts["10'nominal_base"])
+    print(parts["15'nominal_base"])
 
 main_questionair()
