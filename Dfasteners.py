@@ -1,6 +1,6 @@
-#<<<<<<< HEAD
-import xlrd
-import sys
+
+import xlrd,sys,re
+
 
 parts = {}
 ########################################
@@ -15,7 +15,7 @@ def main_questionair():
     print('Note: All firewalls will be treated as 3 hour firewalls. So adjust gypboard fasteners and compound accordingly ')
    # try:
     global b_loc
-    path = "C:\Downloads\\1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
+    path = "/root/1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
     bldg = "bldg 1"#input('WHAT IS THE NAME OF THE BUILDING ON THE SPREADSHEET?\n').lower()
 
     workbook = open_workbook(path)
@@ -48,14 +48,14 @@ def main_questionair():
 def excell_pull_routine(key,strings):
     try:
         parts[key] = 0
-        for r in range(3,sheet.nrows):
+        for r in range(sheet.nrows):
             cell = sheet.cell(r, 0)
             value = cell.value
             for string in strings:
                 #print (value)
                 if string in value:
                     parts[key] += sheet.cell(r, b_loc).value
-        print (parts[key], "")
+
 
     except:
         pass
@@ -64,9 +64,14 @@ def excell_pull_routine(key,strings):
 
 
 def PartsSearch():
-    collection = [["downspouts",["TDS"]],["overflows",["T31283"]],["316Panels",["B4","BDS"]],["TopAngles",["S50131"]],["RoofPanelClosures",["R20005"]],
-                 ["GutterClips", ["T30003"]],["ExtHeaders",["HEAA"]],["cjc",["S20138"]],["RollUpDoors",["D7"]],["Gboard-625-10",["M60072"]],["Gboard-625-12",
-                 ["M60073"]],["Sign",["M61308"]]]
+    collection = [["downspouts",["TDS"]],["overflows",["T31283"]],["316Panels",["B4","BDS"]],
+                  ["TopAngles",["S50131"]],["RoofPanelClosures",["R20005"]],["GutterClips",
+                  ["T30003"]],["ExtHeaders",["HEAA"]],["cjc",["S20138"]],["RollUpDoors",["D7"]],
+                  ["Gboard-625-10",["M60072"]],["Gboard-625-12",["M60073"]],["Sign",["M61308"]],
+                  ["16WallColumn",["CEBA"]],["18WallColumn",["CEBB"]],["CornerColumn",["CEAA"]],
+                  ["24CornerColumn",["CEBC"]],["InsideCorner",["CEAF"]],["22gaColumn",["CIAD"]],
+                  ["7'ScrewGuard", ["S50180"]],["7'10ScrewGuard",["S50049Gl"]],["JambChanngel",["S46185"]],
+                  ]
     for arguments in collection:
         key, string = arguments
         excell_pull_routine(key,string)
@@ -80,22 +85,25 @@ def PartsSearch():
         value = cell.value
         #print (value)
         if "SBA" in value:
-            if "0" in value:
-                for x in range(20,80):
-                    if str(x) in value:
-                        parts["5'nominal_base"] += sheet.cell(r, b_loc).value
-
-            for x in range(90,120):
-                if str(x) in value:
+            num = re.findall(r'\d{3}', value)
+            num = int(num[0])
+            if num:
+                if num in range(80):
+                    parts["5'nominal_base"] += sheet.cell(r, b_loc).value
+                if num in range(80,140):
                     parts["10'nominal_base"] += sheet.cell(r, b_loc).value
-
-            for x in range(150,199):
-                if str(x) in value:
+                if num in range(140,200):
                     parts["15'nominal_base"] += sheet.cell(r, b_loc).value
 
 
-    print(parts["5'nominal_base"])
-    print(parts["10'nominal_base"])
-    print(parts["15'nominal_base"])
+
+
+
 
 main_questionair()
+#def Fastner_calcs():
+M20050 = [((parts['downspouts'] + parts['overflows']) / 10) +
+        ((parts["7'10ScrewGuard"] + parts["7'ScrewGuard"]) / 8)
+]
+
+print (M20050)
