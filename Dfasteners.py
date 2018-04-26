@@ -1,8 +1,8 @@
-<<<<<<< HEAD
+#<<<<<<< HEAD
 import xlrd
 import sys
 
-
+parts = {}
 ########################################
 
 from xlrd import open_workbook
@@ -34,7 +34,7 @@ def main_questionair():
         if str(bldg) == str(value).lower():
             #print (c)
             b_loc = c
-            excell_pull_routine()
+            PartsSearch()
             target = 1
     if target != 1:
         print("YOU SEEM TO HAVE TYPED THE NAME WRONG")
@@ -44,133 +44,40 @@ def main_questionair():
      #   print("YOU TYPED THE FILE PATH INCORRECTLY \n")
       #  main_questionair()
 
+###########################################################
+def excell_pull_routine(key,strings):
+    try:
+        parts[key] = 0
+        for r in range(3,sheet.nrows):
+            cell = sheet.cell(r, 0)
+            value = cell.value
+            for string in strings:
+                #print (value)
+                if string in value:
+                    parts[key] += sheet.cell(r, b_loc).value
+        print (parts[key], "")
 
-def excell_pull_routine():
-    parts = {}
-
-#DOWNSPOUTS
-    parts["downspouts"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "TDS" in value:
-            parts["downspouts"] += sheet.cell(r, b_loc).value
-    print (parts["downspouts"], "DOWNSPOUTS")
-
-#OVERFLOWS
-    parts["overflows"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "T31283" in value:
-            parts["overflows"] += sheet.cell(r, b_loc).value
-    print (parts["overflows"], "overflows")
-
-#316 roof panels
-    parts["316-panels"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "B4" in value or "BDS" in value:
-            parts["316-panels"] += sheet.cell(r, b_loc).value
-    print (parts["316-panels"], "316 roof panels")
-
-# SA-3A top angle
-    parts["topangle"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "S50131" in value:
-            parts["topangle"] += sheet.cell(r, b_loc).value
-    print (parts["topangle"], "Top angle")
-
-# 316 closures
-    parts["roof-panel-closure"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "R20005" in value:
-            parts["roof-panel-closure"] += sheet.cell(r, b_loc).value
-
-# gutter clips
-    parts["gutterclips"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "T30003" in value:
-            parts["gutterclips"] += sheet.cell(r, b_loc).value
+    except:
+        pass
+###########################################################
 
 
-# exterior headers
-    parts["ext-headers"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "HEAA" in value:
-            parts["ext-headers"] += sheet.cell(r, b_loc).value
 
-# control joint columns
-    parts["cjc"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "S20138" in value:
-            parts["cjc"] += sheet.cell(r, b_loc).value
+def PartsSearch():
 
-# our roll up doors
-    parts["rudoors"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "D7" in value:
-            parts["rudoors"] += sheet.cell(r, b_loc).value
+    excell_pull_routine("downspouts",["TDS"])
+    excell_pull_routine("overflows", ["T31283"])
+    excell_pull_routine("316-panels", ["B4","BDS"])
+    excell_pull_routine("topangles", ["S50131"])
+    excell_pull_routine("RoofPanelClosure", ["R20005"])
+    excell_pull_routine("GutterClips", ["T30003"])
+    excell_pull_routine("ExtHeaders", ["HEAA"])
+    excell_pull_routine("cjc", ["S20138"])
+    excell_pull_routine("RollUpDoors", ["D7"])
+    excell_pull_routine("Gboard-625-10", ["M60072"])
+    excell_pull_routine("Gboard-625-12", ["M60073"])
+    excell_pull_routine("Sign", ["M61308"])
 
-# gyp board 5/8" x 10
-    parts["gboard-625-10"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "M60072" in value:
-            parts["gboard-625-10"] += sheet.cell(r, b_loc).value
-
-# gyp board 5/8" x 12
-    parts["gboard-625-12"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "M60073" in value:
-            parts["gboard-625-12"] += sheet.cell(r, b_loc).value
-
-
-# sign
-    parts["sign"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "M61308" in value:
-            parts["sign"] += sheet.cell(r, b_loc).value
-
-
-# Trap-roof
-    parts["TrapRoof"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "trap roof part number" in value:
-            parts["TrapRoof"] += sheet.cell(r, b_loc).value
 
 # 5' base angles
     parts["5'nominal_base"] = 0
@@ -181,9 +88,8 @@ def excell_pull_routine():
         value = cell.value
         #print (value)
         if "SBA" in value:
-            print("here")
             if "0" in value:
-                for x in range(10,80):
+                for x in range(20,80):
                     if str(x) in value:
                         parts["5'nominal_base"] += sheet.cell(r, b_loc).value
 
@@ -191,7 +97,7 @@ def excell_pull_routine():
                 if str(x) in value:
                     parts["10'nominal_base"] += sheet.cell(r, b_loc).value
 
-            for x in range(150,200):
+            for x in range(150,199):
                 if str(x) in value:
                     parts["15'nominal_base"] += sheet.cell(r, b_loc).value
 
@@ -201,303 +107,12 @@ def excell_pull_routine():
     print(parts["15'nominal_base"])
 
 main_questionair()
-=======
-import xlrd
-import sys
-
-
-########################################
-
-from xlrd import open_workbook
-
-global b_loc
-
-def main_questionair():
-    print('WELCOME TO THE DFASTENERS PROGRAM\n')
-
-    print('Note: All firewalls will be treated as 3 hour firewalls. So adjust gypboard fasteners and compound accordingly ')
-   # try:
-    global b_loc
-    path = "C:\Downloads\\1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
-    bldg = "bldg 1"#input('WHAT IS THE NAME OF THE BUILDING ON THE SPREADSHEET?\n').lower()
-
-    workbook = open_workbook(path)
-
-    global sheet
-    sheet = workbook.sheet_by_index(0)
-
-
-    for c in range(sheet.ncols):
-        global b_loc
-        global target
-        cell = sheet.cell(1, c)
-        value = cell.value
-        #print(value)
-
-        if str(bldg) == str(value).lower():
-            #print (c)
-            b_loc = c
-            excell_pull_routine()
-            target = 1
-    if target != 1:
-        print("YOU SEEM TO HAVE TYPED THE NAME WRONG")
-        main_questionair()
-
-   # except:
-     #   print("YOU TYPED THE FILE PATH INCORRECTLY \n")
-      #  main_questionair()
-
-
-def excell_pull_routine():
-    parts = {}
-
-#DOWNSPOUTS
-    parts["downspouts"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "TDS" in value:
-            parts["downspouts"] += sheet.cell(r, b_loc).value
-    print (parts["downspouts"], "DOWNSPOUTS")
-
-#OVERFLOWS
-    parts["overflows"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "T31283" in value:
-            parts["overflows"] += sheet.cell(r, b_loc).value
-    print (parts["overflows"], "overflows")
-
-#316 roof panels
-    parts["316-panels"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "B4" in value or "BDS" in value:
-            parts["316-panels"] += sheet.cell(r, b_loc).value
-    print (parts["316-panels"], "316 roof panels")
-
-# SA-3A top angle
-    parts["topangle"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "S50131" in value:
-            parts["topangle"] += sheet.cell(r, b_loc).value
-    print (parts["topangle"], "Top angle")
-
-# 316 closures
-    parts["roof-panel-closure"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "R20005" in value:
-            parts["roof-panel-closure"] += sheet.cell(r, b_loc).value
-
-# gutter clips
-    parts["gutterclips"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "T30003" in value:
-            parts["gutterclips"] += sheet.cell(r, b_loc).value
-
-
-# exterior headers
-    parts["ext-headers"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "HEAA" in value:
-            parts["ext-headers"] += sheet.cell(r, b_loc).value
-
-# control joint columns
-    parts["cjc"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "S20138" in value:
-            parts["cjc"] += sheet.cell(r, b_loc).value
-
-# our roll up doors
-    parts["rudoors"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "D7" in value:
-            parts["rudoors"] += sheet.cell(r, b_loc).value
-
-# gyp board 5/8" x 10
-    parts["gboard-625-10"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "M60072" in value:
-            parts["gboard-625-10"] += sheet.cell(r, b_loc).value
-
-# gyp board 5/8" x 12
-    parts["gboard-625-12"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "M60073" in value:
-            parts["gboard-625-12"] += sheet.cell(r, b_loc).value
-
-
-# sign
-    parts["sign"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "M61308" in value:
-            parts["sign"] += sheet.cell(r, b_loc).value
-
-
-# Trap-roof
-    parts["TrapRoof"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "RT4" in value:
-            parts["TrapRoof"] += sheet.cell(r, b_loc).value
-
-# 5' base angles
-    parts["5'nominal_base"] = 0
-    parts["10'nominal_base"] = 0
-    parts["15'nominal_base"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "SBA" in value:
-            print("here")
-            if "0" in value:
-                for x in range(10,80):
-                    if str(x) in value:
-                        parts["5'nominal_base"] += sheet.cell(r, b_loc).value
-
-            for x in range(90,120):
-                if str(x) in value:
-                    parts["10'nominal_base"] += sheet.cell(r, b_loc).value
-
-            for x in range(150,200):
-                if str(x) in value:
-                    parts["15'nominal_base"] += sheet.cell(r, b_loc).value
-
-
-# 16" Wall Columns
-    parts["16WallColumn"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "CEBA" in value:
-            parts["16WallColumn"] += sheet.cell(r, b_loc).value
-
-
-
-
-# 18" Wall Columns
-    parts["18WallColumn"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "CEBB" in value:
-            parts["18WallColumn"] += sheet.cell(r, b_loc).value
-
-# Corner Column
-    parts["CornerColumn"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "CEAA" in value:
-            parts["CornerColumn"] += sheet.cell(r, b_loc).value
-
-
-# 24" Wall Column
-    parts["24WallColumn"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "CEBC" in value:
-            parts["24WallColumn"] += sheet.cell(r, b_loc).value
-
-
-# Inside Corner Column Assembly
-    parts["InsideCorner"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "CEAF" in value:
-            parts["InsideCorner"] += sheet.cell(r, b_loc).value
-
-# 22 ga interior column
-    parts["22gaColumn"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "CIAD" in value:
-            parts["22gaColumn"] += sheet.cell(r, b_loc).value
-
-# Screw guards, use this to determine the wall pabel widths
-    parts["7'ScrewGuard"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "S50180" in value:
-            parts["7'ScrewGuard"] += sheet.cell(r, b_loc).value
-
-    parts["7'10ScrewGuard"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "S50049GL" in value:
-            parts["7'10ScrewGuard"] += sheet.cell(r, b_loc).value
-
-# Jam channel, use this for pdf calculation "Jam channel x 2"
-    parts["JambChannel"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "S46185" in value:
-            parts["JambChannel"] += sheet.cell(r, b_loc).value
-
-
-# Screw guards, use this to determine the wall pabel widths
-    parts["7'ScrewGuard"] = 0
-    for r in range(sheet.nrows):
-        cell = sheet.cell(r, 0)
-        value = cell.value
-        #print (value)
-        if "S50180" in value:
-            parts["7'ScrewGuard"] += sheet.cell(r, b_loc).value
 
 
 
 
 
 
-main_questionair()
->>>>>>> f8367b9f4583189ffcab68a3acc2cc897dc17b28
+
+
+
