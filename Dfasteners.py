@@ -64,22 +64,14 @@ def excell_pull_routine(key,strings):
 
 
 def PartsSearch():
+    collection = [["downspouts",["TDS"]],["overflows",["T31283"]],["316Panels",["B4","BDS"]],["TopAngles",["S50131"]],["RoofPanelClosures",["R20005"]],
+                 ["GutterClips", ["T30003"]],["ExtHeaders",["HEAA"]],["cjc",["S20138"]],["RollUpDoors",["D7"]],["Gboard-625-10",["M60072"]],["Gboard-625-12",
+                 ["M60073"]],["Sign",["M61308"]]]
+    for arguments in collection:
+        key, string = arguments
+        excell_pull_routine(key,string)
 
-    excell_pull_routine("downspouts",["TDS"])
-    excell_pull_routine("overflows", ["T31283"])
-    excell_pull_routine("316-panels", ["B4","BDS"])
-    excell_pull_routine("topangles", ["S50131"])
-    excell_pull_routine("RoofPanelClosure", ["R20005"])
-    excell_pull_routine("GutterClips", ["T30003"])
-    excell_pull_routine("ExtHeaders", ["HEAA"])
-    excell_pull_routine("cjc", ["S20138"])
-    excell_pull_routine("RollUpDoors", ["D7"])
-    excell_pull_routine("Gboard-625-10", ["M60072"])
-    excell_pull_routine("Gboard-625-12", ["M60073"])
-    excell_pull_routine("Sign", ["M61308"])
-
-
-# 5' base angles
+#  base angles
     parts["5'nominal_base"] = 0
     parts["10'nominal_base"] = 0
     parts["15'nominal_base"] = 0
@@ -107,12 +99,3 @@ def PartsSearch():
     print(parts["15'nominal_base"])
 
 main_questionair()
-
-
-
-
-
-
-
-
-
