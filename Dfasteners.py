@@ -6,6 +6,8 @@ parts = {}
 fastners = {}
 roofpanelsnumber = []
 roofpanelslength = []
+cjcheighths = []
+cjccount = []
 ########################################
 
 from xlrd import open_workbook
@@ -19,7 +21,7 @@ def main_questionair():
    # try:
     global b_loc
     global bldg
-    path = "C:\Downloads\\1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
+    path = "/root/1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
     bldg = "bldg 1"#input('WHAT IS THE NAME OF THE BUILDING ON THE SPREADSHEET?\n').lower()
 
     workbook = open_workbook(path)
@@ -111,6 +113,15 @@ def PartsSearch():
             roofpanelsnumber.append((sheet.cell(r, b_loc).value))
 
 
+    for r in range(sheet.nrows):
+        cell = sheet.cell(r,0)
+        value = cell.value
+        if "CJAA" in value:
+            num = re.findall(r'\d{3}', value)
+            num = num[0]
+            cjcheighths.append(float(num)/12)
+            cjccount.append((sheet.cell(r, b_loc).value) / 2)
+
 
 
 
@@ -160,15 +171,25 @@ def Fastner_Calcs():
     #M30001
     fastners["M30001"] = 0
     PanelsxLength = 0
-    print(roofpanelslength)
     for x in range(len(roofpanelslength)):
         PanelsxLength += roofpanelslength[x] * roofpanelsnumber[x]
-    M30001 = [PanelsxLength,
+    M30001 = [((PanelsxLength + (parts["7'10ScrewGuard"] + parts["7'ScrewGuard"]) * 5) / 50),
               (parts["RoofClips"] / 80),
               (parts["GutterClips"] / 150)]
     for x in M30001:
         Add_Fastner("M30001",x)
 
+
+
+    #M30005
+    fastners["M30005"] = 0
+    for x in range(len(cjccount)):
+        cjcheightxcjccount = 0
+        cjcheightxcjccount += cjccount[x] * cjcheighths[x]
+        print(parts["cjc"])
+    M30005 = [parts["ExtHeaders"] * 4, (cjcheightxcjccount)]
+    for x in M30005:
+        Add_Fastner("M30005",x)
 
 
 
