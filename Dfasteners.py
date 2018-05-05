@@ -1,7 +1,7 @@
 
-import xlrd,sys,re,math
+import re,math
 
-
+info = {}
 parts = {}
 fastners = {}
 roofpanelsnumber = []
@@ -12,18 +12,17 @@ cjccount = []
 
 from xlrd import open_workbook
 
-global b_loc
 
 def main_questionair():
     print('WELCOME TO THE DFASTENERS PROGRAM\n')
-
     print('Note: All firewalls will be treated as 3 hour firewalls. So adjust gypboard fasteners and compound accordingly ')
    # try:
     global b_loc
     global bldg
-    path = "/root/1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
+    path = "C:/Downloads/1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
     bldg = "bldg 1"#input('WHAT IS THE NAME OF THE BUILDING ON THE SPREADSHEET?\n').lower()
-
+    sqft = int(input('What is the SQFT of ' + bldg))
+    info["sqft"] = sqft
     workbook = open_workbook(path)
 
     global sheet
@@ -135,6 +134,7 @@ def Add_Fastner(key,value):
 
     fastners[key] += value
 
+
 def Fastner_Calcs():
     global SidewallLength
     if parts["RidgeCap"] == 0:
@@ -150,7 +150,7 @@ def Fastner_Calcs():
 
 
     if parts["20'gutter"] == 0:
-        M20050.append((SidewallLength) * 2/40)
+        M20050.append(SidewallLength * 2/40)
 
     for x in M20050:
         Add_Fastner("M20050",x)
@@ -192,13 +192,47 @@ def Fastner_Calcs():
         Add_Fastner("M30005",x)
 
 
+    #M30020
+    fastners["M30020"] = 0
+    if parts["20'gutter"] != 0:
+       M30020 = [SidewallLength * 2 / 50,
+                 (parts["RoofPanelClosures"] * 16 / 12 / 25)]
+       for x in M30020:
+           Add_Fastner("M30020",x)
 
 
+    #M40030
+    fastners["M40030"] = 0
+    fastners["M6919"] = 0
+    M40030 = [info["sqft"] / 10000]
+    for x in M40030:
+        Add_Fastner("M40030",x)
+        Add_Fastner("M6919", x)
+
+    #M60905
+    fastners["M60905"] = 0
+    M60905 = [parts["RollUpDoors"] / 50]
+    for x in M60905:
+        Add_Fastner("M60905",x)
 
 
+    #M60936
+    fastners["M60936"] = 0
+    M60936 = [parts["RollUpDoors"] / 10]
+    for x in M60936:
+        Add_Fastner("M60936",x)
 
 
+    #M61308
+    fastners["M61308"] = 0
+    Add_Fastner("M61308", 1)
 
+    # M20053
+    fastners["M20053"] = 0
+    M20053 = [parts["Gboard-625-10"] / 24,
+              parts["Gboard-625-12"] / 20]
+    for x in M20053:
+        Add_Fastner("M20053", x)
 
 
 
@@ -223,3 +257,5 @@ print(fastners)
 
 ##########################NOTES################################
 #FIGURE OUT 1 PER 40FT OF FLASHING/COUNTER FLASHING AT MASONRY M20055
+#HANDLE M40040(get insulation part nums)
+#do tri bead mastic,(get all part numbers associated with trap roof)
