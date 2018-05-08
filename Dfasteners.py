@@ -234,6 +234,27 @@ def Fastner_Calcs():
     for x in M20053:
         Add_Fastner("M20053", x)
 
+    # M20054
+    fastners["M20054"] = 0
+    M20054 = [parts["Gboard-625-10"] / 30,
+              parts["Gboard-625-12"] / 30]
+    for x in M20054:
+        Add_Fastner("M20054", x)
+
+    # M20054
+    fastners["M20054"] = 0
+    M20054 = [parts["Gboard-625-10"] / 30,
+              parts["Gboard-625-12"] / 30]
+    for x in M20054:
+        Add_Fastner("M20054", x)
+
+
+    # F88057
+    fastners["F88057"] = 0
+    F88057 = [parts["Gboard-625-10"] / 30,
+              parts["Gboard-625-12"] / 30]
+    for x in M20054:
+        Add_Fastner("M20054", x)
 
 
 
