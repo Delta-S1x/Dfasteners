@@ -21,7 +21,7 @@ def main_questionair():
     global bldg
     path = "/root/1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
     bldg = "bldg 1"#input('WHAT IS THE NAME OF THE BUILDING ON THE SPREADSHEET?\n').lower()
-    sqft = int(input('What is the SQFT of ' + bldg))
+    sqft = int(input('What is the SQFT of ' + bldg + "\n"))
     info["sqft"] = sqft
     workbook = open_workbook(path)
 
@@ -77,8 +77,11 @@ def PartsSearch():
                   ["24WallColumn",["CEBC"]],["InsideCorner",["CEAF"]],["22gaColumn",["CIAD"]],
                   ["7'ScrewGuard", ["S50180"]],["7'10ScrewGuard",["S50049Gl"]],["JambChanngel",["S46185"]],
                   ["20'gutter",["T30218"]],["20'3gutter",["T30219"]],["RidgeCap",["R30025GL"]], ["RoofClips",["R20059"]],
-                  ["7'10-236panels", ["A6093M"]],["7'0-236panels", ["A6093M"]],["24Jam", ["DJBA096XBW"]],["12Jam", ["DJBB096XBW"]],
-                  ["10Jam", ["DJBC096XBW"]], ["8Jam", ["DJBJ096XBW"]], ["8Jam", ["DJBJ096XBW"]],
+                  ["StandOffRoofClips", ["R20061"]],["7'10-236panels", ["A6093M"]],["7'0-236panels", ["A6093M"]],["24Jam", ["DJBA096XBW"]],
+                  ["12Jam", ["DJBB096XBW"]],["10Jam", ["DJBC096XBW"]], ["8Jam", ["DJBJ096XBW"]], ["8Jam", ["DJBJ096XBW"]],
+                  ["Studtrack", ["S362T12543120X3"]],["MasonryFlashing1", ["T4065"]],["FirewallTrimAngle", ["S50024"]],
+                  ["RmaxBoard", ["M40263B"]],["1.5RmaxBoard", ["M40264B"]],["2RmaxBoard", ["M40265B"]],["ClipAngle", ["S64508","S66726"]],
+                  ["OutsideAngle", ["T50149"]]
                 ]
 
 
@@ -248,6 +251,8 @@ def Fastner_Calcs():
 
 
     # F88057
+    vc = input("Number of Vertical Cee's at Masonry wall?\n")
+
     fastners["F88057"] = 0
     F88057 = [parts["5'nominal_base"] * 3,
               parts["10'nominal_base"] * 4,
@@ -264,18 +269,58 @@ def Fastner_Calcs():
               parts["7'10-236panels"],
               parts["7'0-236panels"],
               parts["24Jam"] * 4,                ################# Need to ad 3 per corner column extension
-              (parts["12Jam"] + parts["10Jam"] + parts["8Jam"]) * 2]
+              (parts["12Jam"] + parts["10Jam"] + parts["8Jam"]) * 2,
+              parts["Studtrack"] / 1.125 / 2 * 6,
+              parts["MasonryFlashing1"] *10,
+              int(vc) * 4]
 
     for x in F88057:
         Add_Fastner("F88057", x)
 
+    # F10039
+    vc = input("Number of Vertical Cee's at Gyp Board wall?\n")
+    fastners["F10039"] = 0
+    F10039 = [parts["FirewallTrimAngle"] * 10,
+              int(vc) * 4]
+    for x in F10039:
+        Add_Fastner("F10039", x)
+
+
+    # F10020
+    fastners["F10020"] = 0
+    F10020 = [parts["RmaxBoard"] * 15]
+    for x in F10020:
+        Add_Fastner("F10020", x)
+
+
+    # F10017
+    fastners["F10017"] = 0
+    F10017 = [parts["1.5RmaxBoard"] * 15]
+    for x in F10017:
+        Add_Fastner("F10017", x)
 
 
 
 
 
-    for key in list(fastners):
-        fastners[key] = math.ceil(fastners[key])
+
+    # F10028
+    fastners["F10028"] = 0
+    F10028 = [parts["StandOffRoofClips"] * 3]
+    for x in F10028:
+        Add_Fastner("F10028", x)
+
+
+
+    # F10008
+    fastners["F10008"] = 0
+    F10008 = [parts["RoofClips"] * 3,
+              parts["ClipAngle"] * 3,
+              parts["OutsideAngle"] * 7]
+
+    for x in F10008:
+        Add_Fastner("F10008", x)
+
 
 
 
@@ -296,3 +341,4 @@ print(fastners)
 # FIGURE OUT 1 PER 40FT OF FLASHING/COUNTER FLASHING AT MASONRY M20055
 # HANDLE M40040(get insulation part nums)
 # do tri bead mastic,(get all part numbers associated with trap roof)
+#F10017 what 1 1/2" insulation
