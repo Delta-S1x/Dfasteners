@@ -277,6 +277,6 @@ print(fastners)
 
 
 ##########################NOTES################################
-#FIGURE OUT 1 PER 40FT OF FLASHING/COUNTER FLASHING AT MASONRY M20055
-#HANDLE M40040(get insulation part nums)
-#do tri bead mastic,(get all part numbers associated with trap roof)
+# FIGURE OUT 1 PER 40FT OF FLASHING/COUNTER FLASHING AT MASONRY M20055
+# HANDLE M40040(get insulation part nums)
+# do tri bead mastic,(get all part numbers associated with trap roof)
