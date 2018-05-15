@@ -19,7 +19,7 @@ def main_questionair():
    # try:
     global b_loc
     global bldg
-    path = "C:/Downloads/1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
+    path = "/root/1.xls"#input("PLEASE COPY AND PAST THE FILE PATH TO THE TAKEOFF\n")
     bldg = "bldg 1"#input('WHAT IS THE NAME OF THE BUILDING ON THE SPREADSHEET?\n').lower()
     sqft = int(input('What is the SQFT of ' + bldg))
     info["sqft"] = sqft
@@ -71,12 +71,18 @@ def excell_pull_routine(key,strings):
 def PartsSearch():
     collection = [["downspouts",["TDS"]],["overflows",["T31283"]],["316Panels",["B4","BDS"]],
                   ["TopAngles",["S50131"]],["RoofPanelClosures",["R20005"]],["GutterClips",
-                  ["T30003"]],["ExtHeaders",["HEAA"]],["cjc",["S20138"]],["RollUpDoors",["D7"]],
+                  ["T30003"]],["ExtHeaders",["HEAA"]],["cjc",["S20139"]],["RollUpDoors",["D7"]],
                   ["Gboard-625-10",["M60072"]],["Gboard-625-12",["M60073"]],["Sign",["M61308"]],
                   ["16WallColumn",["CEBA"]],["18WallColumn",["CEBB"]],["CornerColumn",["CEAA"]],
-                  ["24CornerColumn",["CEBC"]],["InsideCorner",["CEAF"]],["22gaColumn",["CIAD"]],
+                  ["24WallColumn",["CEBC"]],["InsideCorner",["CEAF"]],["22gaColumn",["CIAD"]],
                   ["7'ScrewGuard", ["S50180"]],["7'10ScrewGuard",["S50049Gl"]],["JambChanngel",["S46185"]],
-                  ["20'gutter",["T30218"]],["20'3gutter",["T30219"]],["RidgeCap",["R30025GL"]], ["RoofClips",["R20059"]]]
+                  ["20'gutter",["T30218"]],["20'3gutter",["T30219"]],["RidgeCap",["R30025GL"]], ["RoofClips",["R20059"]],
+                  ["7'10-236panels", ["A6093M"]],["7'0-236panels", ["A6093M"]],["24Jam", ["DJBA096XBW"]],["12Jam", ["DJBB096XBW"]],
+                  ["10Jam", ["DJBC096XBW"]], ["8Jam", ["DJBJ096XBW"]], ["8Jam", ["DJBJ096XBW"]],
+                ]
+
+
+
     for arguments in collection:
         key, string = arguments
         excell_pull_routine(key,string)
@@ -100,9 +106,8 @@ def PartsSearch():
                 if num in range(140,200):
                     parts["15'nominal_base"] += sheet.cell(r, b_loc).value
 
-
+##Roof panels, and roof panel lengths
     for r in range(sheet.nrows):
-
         cell = sheet.cell(r,0)
         value = cell.value
         if "B4" in value or "BDS" in value:
@@ -111,7 +116,7 @@ def PartsSearch():
             roofpanelslength.append(float(num)/12)
             roofpanelsnumber.append((sheet.cell(r, b_loc).value))
 
-
+##CJC amount of lengths
     for r in range(sheet.nrows):
         cell = sheet.cell(r,0)
         value = cell.value
@@ -241,20 +246,31 @@ def Fastner_Calcs():
     for x in M20054:
         Add_Fastner("M20054", x)
 
-    # M20054
-    fastners["M20054"] = 0
-    M20054 = [parts["Gboard-625-10"] / 30,
-              parts["Gboard-625-12"] / 30]
-    for x in M20054:
-        Add_Fastner("M20054", x)
-
 
     # F88057
     fastners["F88057"] = 0
-    F88057 = [parts["Gboard-625-10"] / 30,
-              parts["Gboard-625-12"] / 30]
-    for x in M20054:
-        Add_Fastner("M20054", x)
+    F88057 = [parts["5'nominal_base"] * 3,
+              parts["10'nominal_base"] * 4,
+              parts["15'nominal_base"] * 5,
+              parts["16WallColumn"] * 3,
+              parts["18WallColumn"] * 3,
+              parts["CornerColumn"] * 3,
+              parts["cjc"] * 6,
+              parts["24WallColumn"] * 4,
+              parts["InsideCorner"] * 6,
+              parts["22gaColumn"] * 2,
+              parts["7'ScrewGuard"] / 2,        ###this will get the same results as 4 per 10' wall panel and 3 per 5' wall panel
+              parts["7'10ScrewGuard"] / 2,
+              parts["7'10-236panels"],
+              parts["7'0-236panels"],
+              parts["24Jam"] * 4,                ################# Need to ad 3 per corner column extension
+              (parts["12Jam"] + parts["10Jam"] + parts["8Jam"]) * 2]
+
+    for x in F88057:
+        Add_Fastner("F88057", x)
+
+
+
 
 
 
