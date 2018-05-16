@@ -76,12 +76,12 @@ def PartsSearch():
                   ["16WallColumn",["CEBA"]],["18WallColumn",["CEBB"]],["CornerColumn",["CEAA"]],
                   ["24WallColumn",["CEBC"]],["InsideCorner",["CEAF"]],["22gaColumn",["CIAD"]],
                   ["7'ScrewGuard", ["S50180"]],["7'10ScrewGuard",["S50049Gl"]],["JambChanngel",["S46185"]],
-                  ["20'gutter",["T30218"]],["20'3gutter",["T30219"]],["RidgeCap",["R30025GL"]], ["RoofClips",["R20059"]],
+                  ["gutter",["T30218", "T30219"]],["RidgeCap",["R30025GL"]], ["RoofClips",["R20059"]],
                   ["StandOffRoofClips", ["R20061"]],["7'10-236panels", ["A6093M"]],["7'0-236panels", ["A6093M"]],["24Jam", ["DJBA096XBW"]],
                   ["12Jam", ["DJBB096XBW"]],["10Jam", ["DJBC096XBW"]], ["8Jam", ["DJBJ096XBW"]], ["8Jam", ["DJBJ096XBW"]],
                   ["Studtrack", ["S362T12543120X3"]],["MasonryFlashing1", ["T4065"]],["FirewallTrimAngle", ["S50024"]],
                   ["RmaxBoard", ["M40263B"]],["1.5RmaxBoard", ["M40264B"]],["2RmaxBoard", ["M40265B"]],["ClipAngle", ["S64508","S66726"]],
-                  ["OutsideAngle", ["T50149"]]
+                  ["OutsideAngle", ["T50149"]], ["BreakAngle", ["S61071"]]
                 ]
 
 
@@ -157,7 +157,7 @@ def Fastner_Calcs():
             ((parts["7'10ScrewGuard"] + parts["7'ScrewGuard"]) / 8)]
 
 
-    if parts["20'gutter"] == 0:
+    if parts["gutter"] == 0:
         M20050.append(SidewallLength * 2/40)
 
     for x in M20050:
@@ -171,7 +171,7 @@ def Fastner_Calcs():
              ((parts["7'10ScrewGuard"] + parts["7'ScrewGuard"]) / 8 * 0.2),
               (SidewallLength * 2 / 30),
              (parts["RoofPanelClosures"] * 10 / 30)]
-    if parts["20'gutter"] != 0:
+    if parts["gutter"] != 0:
         M20055.append(SidewallLength * 2/40)
     for x in M20055:
         Add_Fastner("M20055",x)
@@ -202,7 +202,7 @@ def Fastner_Calcs():
 
     #M30020
     fastners["M30020"] = 0
-    if parts["20'gutter"] != 0:
+    if parts["gutter"] != 0:
        M30020 = [SidewallLength * 2 / 50,
                  (parts["RoofPanelClosures"] * 16 / 12 / 25)]
        for x in M30020:
@@ -321,10 +321,35 @@ def Fastner_Calcs():
     for x in F10008:
         Add_Fastner("F10008", x)
 
+    # F12009
+    fastners["F12009"] = 0
+    F12009 = [parts["316Panels"] * 6,
+              parts["RoofPanelClosures"] * 3
+              ]
+
+    for x in F12009:
+        Add_Fastner("F12009", x)
 
 
 
+    #F14010
 
+    fastners["F14010"] = 0
+    F14010number = 0
+    for x in range(len(roofpanelslength)):
+        n = ((int(5 * round(roofpanelslength[x]/5)) * 12 / 15) + 1) * roofpanelsnumber[x]
+        F14010number += n
+        print(n)
+
+
+    F14010 = [F14010number,
+              (parts["gutter"] * 45),
+              (parts["RoofClips"] * 3),
+              (parts["RoofPanelClosures"] * 3),
+              (parts["RidgeCap"] * 10 / 1.3333 * 2),
+              (parts["BreakAngle"] * 11)]
+    for x in M30001:
+        Add_Fastner("F140100",x)
 
 main_questionair()
 Fastner_Calcs()
