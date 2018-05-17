@@ -23,6 +23,7 @@ def main_questionair():
     bldg = "bldg 1"#input('WHAT IS THE NAME OF THE BUILDING ON THE SPREADSHEET?\n').lower()
     sqft = int(input('What is the SQFT of ' + bldg + "\n"))
     info["sqft"] = sqft
+
     workbook = open_workbook(path)
 
     global sheet
@@ -349,7 +350,33 @@ def Fastner_Calcs():
               (parts["RidgeCap"] * 10 / 1.3333 * 2),
               (parts["BreakAngle"] * 11)]
     for x in M30001:
-        Add_Fastner("F140100",x)
+        Add_Fastner("F14010",x)
+
+
+
+    # F14011
+    DownspoutColor = input('WHAT IS THE DOWNSPOUTS COLOR(USE ABBREVIATION')
+    GutterColor = input('WHAT IS THE GUTTER COLOR(USE ABBREVIATION')
+    StructureColor= input('WHAT IS THE EXTERIOR STRUCTURE COLOR(USE ABBREVIATION)')
+    fastners["F14011"+GutterColor] = 40
+    GutterColor = "F14011"+GutterColor
+    print (fastners[GutterColor])
+
+    fastners["F14011"] = 0
+
+    F14011+GutterColor =  [parts["GutterClips"] * 3,
+              parts["RoofPanelClosures"] * 3
+              ]
+
+    for x in F12009:
+        Add_Fastner("F12009", x)
+
+
+
+
+
+
+
 
 main_questionair()
 Fastner_Calcs()
