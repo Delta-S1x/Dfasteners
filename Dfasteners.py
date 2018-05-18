@@ -82,9 +82,19 @@ def PartsSearch():
                   ["12Jam", ["DJBB096XBW"]],["10Jam", ["DJBC096XBW"]], ["8Jam", ["DJBJ096XBW"]], ["8Jam", ["DJBJ096XBW"]],
                   ["Studtrack", ["S362T12543120X3"]],["MasonryFlashing1", ["T4065"]],["FirewallTrimAngle", ["S50024"]],
                   ["RmaxBoard", ["M40263B"]],["1.5RmaxBoard", ["M40264B"]],["2RmaxBoard", ["M40265B"]],["ClipAngle", ["S64508","S66726"]],
-                  ["OutsideAngle", ["T50149"]], ["BreakAngle", ["S61071"]]
+                  ["OutsideAngle", ["T50149"]], ["BreakAngle", ["S61071"]], ["TransitionBox",["T10004"]], ["RakeTrimEndCap",[""]],
+                  ["PeakBox", ["T10025"]],["OutsideCornerBox", ["T10003", "T10004"]], ["InsideCornerBox", ["T10010", "T10011"]],
+                  ["FlatEveTrim", [""]]
+
                 ]
 
+    [parts["GutterClips"] * 3,
+     parts["TransitionBox"] * 8,
+     parts["RakeTrimEndCap"] * 4,
+     parts["PeakBox"] * 6,
+     parts["OutsideCornerBox"] * 6,
+     parts["InsideCornerBox"] * 3,
+     parts["FlatEveTrim"] * 8
 
 
     for arguments in collection:
@@ -365,7 +375,14 @@ def Fastner_Calcs():
     fastners["F14011"] = 0
 
     F14011+GutterColor =  [parts["GutterClips"] * 3,
-              parts["RoofPanelClosures"] * 3
+                           parts["TransitionBox"] * 8,
+                           parts["RakeTrimEndCap"] * 4,
+                           parts["PeakBox"] * 6,
+                           parts["OutsideCornerBox"] * 6,
+                           parts["InsideCornerBox"] * 3,
+                           parts["FlatEveTrim"] * 8
+
+                           #add rake and step trim stuff
               ]
 
     for x in F12009:
